@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个体化用药demo演示</title>
+    <link rel="icon" href="/static/img/title.png" type="image/x-icon"/>
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="js/helangSingle.js"></script>
+    <script scr="js/echarts.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- 下拉多选搜素框 引入的文件 -->
+    <link rel="stylesheet" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-select.min.css">
+
+
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('.selectpicker').selectpicker({
+                'selectedText': 'cat'
+            });
+
+            // 加载下拉框列表
+            $.ajax({
+                url: "/pat/list",
+                type: "post",
+                dataType: "json",
+                contentType: "application/json",
+                traditional: true,
+                success: function (code) {
+                    var data = code.data;
+                    var patId = data[0].id;
+                    $('#pid').val(patId);
+                    $('#currPage').val(1);
+                    changeIframe(1, patId);
+
+                    var optionstring = "";
+                    for (var i in data) {
+                        var jsonObj =data[i];
+                        optionstring += "<option value=\"" + jsonObj.id + "\" >" + jsonObj.name + "</option>";
+                    }
+                    $("#id_select").append("<option value='请选择' disabled='disabled'>-请选择-</option> "+optionstring);
+
+                    $("#id_select").selectpicker("refresh");
+                },
+                error: function (code) {
+                    alert("出错了"+code.data);
+                }
+            });
+
+        });
+
+
+    </script>
+
+    <style type="text/css">
+        #iframe {
+            height: 860px;
+            margin: 0;
+            padding: 0;
+        }
+        #iframe>iframe {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: #dddddd solid 1px;
+        }
+        #id_select {
+            float: right;
+            width: 150px;
+            height: 30px;
+            margin: 10px 50px 10px 0px;
+            border: 1px solid red;
+        }
+
+        .btn-group .bootstrap-select .show-tick{
+            float: right;
+            width: 150px;
+            height: 30px;
+            margin: 10px 50px 10px 0px;
+            border: #399496 solid 1px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="helangHead">
+        <h2>万古霉素—个体化用药demo演示</h2>
+        <nav class="navbar navbar-default" id="helangNav">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">导航切换</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <input id="pid" type="hidden"/>
+                    <input id="currPage" type="hidden">
+                    <!--<a class="navbar-brand" onclick="changeIframe(1)">患者信息</a>-->
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:(0);" class="h_nav planA" onclick="changeIframe(1)" style="font-size: 20px;">患者信息</a>
+                        </li>
+                        <!--<li>-->
+                            <!--<a href="javascript:(0);" class="h_nav planA" onclick="changeIframe(2)" style="font-size: 20px;">用药方案</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="h_nav" data-url="drug_effect.html">用药效果</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="h_nav" data-url="decision.html">决策流程</a>-->
+                        <!--</li>-->
+                        <!--<li class="dropdown">-->
+                            <!--<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他<span class="caret"></span></a>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="https://www.taobao.com/">电商管理</a></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://wvvw.file.alimmdn.com/index.html">办公系统</a></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="https://map.baidu.com/">地理系统</a></li>-->
+                                <!--<li role="separator" class="divider"></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://www.qq.com/">企业管理</a></li>-->
+                                <!--<li role="separator" class="divider"></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://www.timi.net.cn/">婚纱摄影</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                    </ul>
+
+                    <!--<ul class="nav navbar-nav navbar-right">-->
+                        <!--<li class="dropdown">-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:value="${name}">欢迎您,管理员<span class="caret"></span></a>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://www.jq22.com/mem395541">个人主页</a></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://www.jq22.com/mem395541">修改资料</a></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://www.jq22.com/mem395541">安全设置</a></li>-->
+                                <!--<li role="separator" class="divider"></li>-->
+                                <!--<li><a href="javascript:;" class="h_nav" data-url="http://www.jq22.com/mem395541">退出帐号</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                    <!--<div class="dd" item-width="200px" item-height="200px" style="float: right; margin: 10px 106px 10px 0">-->
+                    <div class="btn-group bootstrap-select show-tick" style="float: right; margin-top: 10px;">
+                        <select id="id_select" class="selectpicker show-tick form-control"  style="width: 150px; float: right; margin-top: 10px;" data-live-search="true" onchange="selectChange()">
+                        </select>
+                    </div>
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </nav>
+       
+
+    </div>
+
+    <div id="iframe">
+        <iframe id="myframe" frameborder="no" border="0" src="pat_info.html" scrolling="yes">
+        </iframe>
+    </div>
+
+</div>
+</body>
+</html>

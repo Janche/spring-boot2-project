@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.modules.patient.dao.PatientInfMapper">
+  <resultMap id="BaseResultMap" type="com.example.modules.patient.domain.PatientInf">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="out_num" jdbcType="VARCHAR" property="outNum" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="VARCHAR" property="age" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="infe_type" jdbcType="VARCHAR" property="infeType" />
+    <result column="infe_part" jdbcType="VARCHAR" property="infePart" />
+    <result column="diag_info" jdbcType="VARCHAR" property="diagInfo" />
+    <result column="apa_score" jdbcType="VARCHAR" property="apaScore" />
+    <result column="dis_outline" jdbcType="VARCHAR" property="disOutline" />
+    <result column="crcl_rate" jdbcType="VARCHAR" property="crclRate" />
+    <result column="wgms_chkm" jdbcType="VARCHAR" property="wgmsChkm" />
+    <result column="tempe" jdbcType="VARCHAR" property="tempe" />
+    <result column="calci" jdbcType="VARCHAR" property="calci" />
+    <result column="c_react_po" jdbcType="VARCHAR" property="cReactPo" />
+    <result column="granu_num" jdbcType="VARCHAR" property="granuNum" />
+    <result column="w_blood_ce" jdbcType="VARCHAR" property="wBloodCe" />
+    <result column="glucose" jdbcType="VARCHAR" property="glucose" />
+    <result column="serum_cte" jdbcType="VARCHAR" property="serumCte" />
+    <result column="bl_uric_ac" jdbcType="VARCHAR" property="blUricAc" />
+    <result column="bl_urea_ni" jdbcType="VARCHAR" property="blUreaNi" />
+    <result column="systatin_c" jdbcType="VARCHAR" property="systatinC" />
+    <result column="beta2_mglob" jdbcType="VARCHAR" property="beta2Mglob" />
+    <result column="total_po" jdbcType="VARCHAR" property="totalPo" />
+    <result column="albumin" jdbcType="VARCHAR" property="albumin" />
+    <result column="globulin" jdbcType="VARCHAR" property="globulin" />
+    <result column="direct_bi" jdbcType="VARCHAR" property="directBi" />
+    <result column="indirect_bi" jdbcType="VARCHAR" property="indirectBi" />
+    <result column="total_bi" jdbcType="VARCHAR" property="totalBi" />
+    <result column="ast" jdbcType="VARCHAR" property="ast" />
+    <result column="alt" jdbcType="VARCHAR" property="alt" />
+  </resultMap>
+
+  <resultMap id="PlanDTOMap" type="com.example.modules.patient.DTO.PlanDTO">
+    <result column="pat_id" jdbcType="INTEGER" property="pid" />
+    <!--患者信息-->
+    <result column="out_num" jdbcType="VARCHAR" property="outNum" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="VARCHAR" property="age" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <!--决策流程图路径-->
+    <result column="deci_img_path" jdbcType="VARCHAR" property="deciImgPath" />
+    <!--用药方案-->
+    <association property="drugPlan" javaType="com.example.modules.patient.domain.DrugCase">
+      <result column="out_num" jdbcType="VARCHAR" property="outNum" />
+      <result column="drug_name" jdbcType="VARCHAR" property="drugName" />
+      <result column="deli_way" jdbcType="VARCHAR" property="deliWay" />
+      <result column="load_dose" jdbcType="VARCHAR" property="loadDose" />
+      <result column="main_dose" jdbcType="VARCHAR" property="mainDose" />
+      <result column="inte_deli" jdbcType="VARCHAR" property="inteDeli" />
+      <result column="cont_deli" jdbcType="VARCHAR" property="contDeli" />
+      <result column="bl_img_path" jdbcType="VARCHAR" property="blImgPath" />
+    </association>
+    <!--决策规则-->
+    <collection property="rules" javaType="java.util.List" ofType="com.example.modules.patient.domain.DecisionRule">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="out_num" jdbcType="VARCHAR" property="outNum" />
+      <result column="rule_num" jdbcType="INTEGER" property="ruleNum" />
+      <result column="deci_rule" jdbcType="VARCHAR" property="deciRule" />
+      <result column="lite_path" jdbcType="VARCHAR" property="litePath" />
+      <result column="lite_desc" jdbcType="VARCHAR" property="liteDesc" />
+    </collection>
+
+  </resultMap>
+
+  <select id="getPlanDTO" resultMap="PlanDTOMap">
+    select
+      pat.id pat_id,
+      pat.out_num,
+      pat.name,
+      pat.sex,
+      pat.age,
+      pat.weight,
+      proc.deci_img_path,
+      dc.out_num,
+      dc.drug_name,
+      dc.deli_way,
+      dc.load_dose,
+      dc.main_dose,
+      dc.inte_deli,
+      dc.cont_deli,
+      dc.bl_img_path,
+      rule.id,
+      rule.out_num,
+      rule.rule_num,
+      rule.deci_rule,
+      rule.lite_path,
+      rule.lite_desc
+
+    from patient_inf pat
+    left join decision_proc proc
+      on proc.out_num = pat.out_num
+    left join drug_case dc
+      on dc.out_num = pat.out_num
+    left join decision_rule rule
+      on rule.out_num = pat.out_num
+    where pat.id = #{id}
+
+  </select>
+</mapper>

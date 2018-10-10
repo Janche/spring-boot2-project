@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>病人信息</title>
+  <script src="../js/jquery-1.10.2.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/helangSingle.js"></script>
+
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script type="text/javascript">
+
+      $(window).on('load', function () {
+          $('#iframe', parent.document).css("height", "900px");
+      });
+
+      function changeIframe1(currPage, patId) {
+          if (patId == null || patId == '' || patId === undefined) {
+              patId = $('#id_select', parent.document).val();
+              console.log("patId:" + patId);
+          }
+          console.log("currPage:" + currPage + ",patId:" + patId);
+          switch (currPage) {
+              case 1:
+                  $('#myframe', parent.document).attr('src', "/pat/info?id=" + patId);
+                  // document.getElementById("myframe").src="/pat/info?id="+patId+'&code=' + Math.random();
+                  $('#currPage', parent.document).val(1);
+                  break;
+              case 2:
+                  $('#myframe', parent.document).attr('src', "/pat/plan?id=" + patId);
+                  // document.getElementById("myframe").src="/pat/plan?id="+patId+'&code=' + Math.random();
+                  $('#currPage', parent.document).val(2);
+                  break;
+          }
+      }
+  </script>
+</head>
+
+<body onload="changeIframe">
+  <div class="container">
+
+        <br>
+        <form name="frm-sample" class="frm-sample" action="javascript(0)" method="post">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">基本信息</h3>
+            </div>
+            <div class="panel-body">
+
+              <div class="form-horizontal">
+                <div class="form-group">
+
+                  <div class="col-md-3">
+                    <label class="col-md-4 control-label">患者ID:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.outNum}"></p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="col-md-4 control-label">姓名:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.name}"></p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="col-md-4 control-label">性别:</label>
+                    <div class="col-md-8 col41">
+                        <p class="form-control-static" th:text="${pat.sex}"></p>
+                        <!--<label class="radio-inline">-->
+                          <!--<input type="radio" th:field="*{pat.sex}" value="男" name="sex">男-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                          <!--<input type="radio" th:field="*{pat.sex}" value="女" name="sex">女-->
+                        <!--</label>-->
+                    </div>
+                  </div>
+                  <div class="col-md-3 col4">
+                    <label class="col-md-6 control-label">感染部位:</label>
+                    <div class="col-md-6 col41">
+                      <p class="form-control-static" th:text="${pat.infePart}">腹部感染</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-horizontal">
+                <div class="form-group">
+
+                  <div class="col-md-3">
+                    <label class="col-md-4 control-label">体重:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.weight}">60KG</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="col-md-4 control-label">年龄:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.age}">51</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="col-md-4 control-label">民族:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.nation}">汉</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col4">
+                    <label class="col-md-6 control-label">测定方法:</label>
+                    <div class="col-md-6 col41">
+                      <p class="form-control-static" th:text="${pat.wgmsChkm}">免疫检测法</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="form-horizontal">
+                <div class="form-group">
+
+                  <div class="col-md-9 col2">
+                    <label class="col-md-2 control-label">诊断:</label>
+                    <div class="col-md-10 col41">
+                      <p class="form-control-static" th:text="${pat.diagInfo}">重症脓毒血症，细菌性肠道感染，多器官功能障碍综合征</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">感染指标</h3>
+            </div>
+            <div class="panel-body">
+
+              <div class="form-horizontal">
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">体温:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.tempe}">39.2℃</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">降钙素原:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.calci}">0.17ug/ml</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">C反应蛋白:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.cReactPo}">74.80mg</p>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">白细胞计数:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.wBloodCe}">14.21*10E9/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col11">
+                    <label class="col-md-6 control-label">中性粒细胞绝对数:</label>
+                    <div class="col-md-6 col41">
+                      <p class="form-control-static" th:text="${pat.granuNum}">12.33*10E9/L</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">肾功能指标</h3>
+            </div>
+            <div class="panel-body">
+
+              <div class="form-horizontal">
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">葡萄糖:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.glucose}">5.3mmol/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">血尿素氮:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.blUreaNi}">6.6mmol/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">肌酐清除率:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.crclRate}">64ml/min</p>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">血肌酐:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.serumCte}">101umol/L</p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">胱抑素C:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.systatinC}">0.97mg/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">β2微球蛋白:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.beta2Mglob}">2.4mg/L</p>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">血尿酸:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.blUricAc}">337μmol/L</p>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">肝功能指标</h3>
+            </div>
+            <div class="panel-body">
+
+              <div class="form-horizontal">
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">总蛋白:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.totalPo}">71.8g/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">白蛋白:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.albumin}">52.3g/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">球蛋白:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.globulin}">19.5g/L</p>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">总胆红素:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.totalBi}">16.2umol/l</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">直接胆红素:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.directBi}">4.6umol/L</p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">间接胆红素:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.indirectBi}">11.6umol/L</p>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">谷丙转氨酶:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.ast}">4.6umol/L</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-md-4 control-label">谷草转氨酶:</label>
+                    <div class="col-md-8 col41">
+                      <p class="form-control-static" th:text="${pat.alt}">11.6umol/L</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+          <div class="row">
+              <div class="col-md-12 planB">
+                <button type="button" class="btn btn-primary button" onclick="changeIframe1(2)" style="font-size:20px;padding:6px 30px;border-radius:7px;" >生成用药方案</button>
+              </div>
+            </div>
+        </form>
+
+  </div>
+
+
+</body>
+
+</html>

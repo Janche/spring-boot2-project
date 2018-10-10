@@ -1,0 +1,39 @@
+<!--
+    author:helang
+    Email:helang.love@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="author" content="helang.love@qq.com">
+    <title>个体化用药demo演示</title>
+    <link rel="stylesheet" href="http://wvvw.file.alimmdn.com/Bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" style="padding-top: 50px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">后端管理单页框架-说明</div>
+        <div class="panel-body">
+            <p>引用文件：<code>lib/helangSingle.js</code></p>
+            <p>调用方式：</p>
+            <p>
+                <code>
+                    $.helangSingle({ <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;url:"pages/index.html", //url:'默认打开页的地址'<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;title:"首页"    //title:'默认打开页的标题'<br />
+                    });
+                </code>
+            </p>
+            <p>其它说明：</p>
+            <ol>
+                <li>页面元素ID名称不能更改，分别为：helangNav(导航),helangTab(选项卡),helangFrame(框架集容器),helangHead(头部容器)</li>
+                <li>导航绑定打开地址，给元素添加类<code>h_nav</code>并给这个元素添加自定义属性<code>data-url</code>写上链接地址既可(<span class="text-danger">参照本示例的写法</span>)。</li>
+            </ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>

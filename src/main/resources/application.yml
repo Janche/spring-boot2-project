@@ -1,0 +1,67 @@
+# set server port
+server:
+  port: 8080  # 配置端口
+#  servlet:
+#    context-path: /   # 项目启动地址：8080/
+
+
+###   DataSource Config   ###
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+    view:
+      prefix: classpath:/static/
+      suffix: .html
+
+  datasource:
+#      url: jdbc:mysql://10.0.12.181:3306/demopmsd?useUnicode=true&characterEncoding=utf8&useSSL=true
+#      username: itrgzl
+#      password: 123456it
+      url: jdbc:mysql://localhost:3306/demopmsd?useUnicode=true&characterEncoding=utf8&useSSL=true
+      username: root
+      password: root
+
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 1 #初始化时建立物理连接的个数
+      minIdle: 8  #最小连接池数量
+      maxActive: 20 #最大连接池数量
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+
+  ###
+  thymeleaf:
+    cache: false
+    prefix: classpath:static/
+    suffix: .html
+#  resources:
+#    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+###   Mybatis Config  ###
+mybatis:
+  check-config-location: true
+  typeAliasesPackage: com.example.modules.**.domain
+  mapperLocations: classpath:mapper/**/*.xml
+#  type-handlers-package: com.example.common.mybatis.handler.*
+
+###   Mybatis-PageHelper   ###
+# https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md
+pagehelper:
+  pageSizeZero: true
+  helperDialect: mysql
+  # 分页合理化参数
+  reasonable: true
+  params: pageNum=pageNum;pageSize=pageSize;
+  supportMethodsArguments: true
+
+###   Mapper    ###
+# https://github.com/abel533/Mapper/wiki/3.config
+mapper:
+  IDENTITY: mysql
+  notEmpty: false
+  safeDelete: true
+  safeUpdate: true
+
+###   Log Config    ###
+#logging:
+#  path: ./log/
+#  config: classpath:logback-spring.xml
+
